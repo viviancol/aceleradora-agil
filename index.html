@@ -185,27 +185,61 @@
   </div>
 
   <script>
-    function adicionarTarefa() {
-      var novaTarefa = document.getElementById("novaTarefa").value;
-      var tipoTarefa = document.getElementById("tipoTarefa").value;
+  // Função para adicionar uma nova tarefa
+  function adicionarTarefa() {
+    var novaTarefa = document.getElementById("novaTarefa").value;
+    var tipoTarefa = document.getElementById("tipoTarefa").value;
 
-      if (novaTarefa !== "") {
-        var listaTarefas = document.getElementById("tarefas" + tipoTarefa.charAt(0).toUpperCase() + tipoTarefa.slice(1));
-        
-        var novaLi = document.createElement("li");
-        novaLi.innerHTML = `<span>${novaTarefa}</span> <button onclick="removerTarefa(this)">Excluir</button>`;
-        
-        listaTarefas.appendChild(novaLi);
-        
-        document.getElementById("novaTarefa").value = "";
-      }
+    if (novaTarefa !== "") {
+      var listaTarefas = document.getElementById("tarefas" + tipoTarefa.charAt(0).toUpperCase() + tipoTarefa.slice(1));
+
+      var novaLi = document.createElement("li");
+      novaLi.innerHTML = `<span>${novaTarefa}</span> <button onclick="removerTarefa(this)">Excluir</button>`;
+
+      listaTarefas.appendChild(novaLi);
+
+      // Salvar as tarefas no armazenamento local
+      salvarTarefasNoLocalStorage();
+
+      document.getElementById("novaTarefa").value = "";
+    }
+  }
+
+  // Função para remover uma tarefa
+  function removerTarefa(botao) {
+    var listItem = botao.parentNode;
+    listItem.parentNode.removeChild(listItem);
+
+    // Salvar as tarefas no armazenamento local após remover
+    salvarTarefasNoLocalStorage();
+  }
+
+  // Função para salvar as tarefas no armazenamento local
+  function salvarTarefasNoLocalStorage() {
+    var tarefasDia = document.getElementById("tarefasDia").innerHTML;
+    var tarefasNoite = document.getElementById("tarefasNoite").innerHTML;
+
+    localStorage.setItem("tarefasDia", tarefasDia);
+    localStorage.setItem("tarefasNoite", tarefasNoite);
+  }
+
+  // Função para carregar as tarefas do armazenamento local ao carregar a página
+  function carregarTarefasDoLocalStorage() {
+    var tarefasDiaSalvas = localStorage.getItem("tarefasDia");
+    var tarefasNoiteSalvas = localStorage.getItem("tarefasNoite");
+
+    if (tarefasDiaSalvas) {
+      document.getElementById("tarefasDia").innerHTML = tarefasDiaSalvas;
     }
 
-    function removerTarefa(botao) {
-      var listItem = botao.parentNode;
-      listItem.parentNode.removeChild(listItem);
+    if (tarefasNoiteSalvas) {
+      document.getElementById("tarefasNoite").innerHTML = tarefasNoiteSalvas;
     }
-  </script>
+  }
+
+  // Chamar a função para carregar as tarefas do armazenamento local ao carregar a página
+  carregarTarefasDoLocalStorage();
+</script>
 
 </body>
 </html>
