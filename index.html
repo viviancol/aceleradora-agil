@@ -1,11 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinica de Consultas Ágil</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criação de Layout</title>
+  <style>
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    #container {
+        display: flex;
+    }
+
+    #menu {
+        width:300px;
+        height: auto;
+        background-color: #a8caf0;
+        color: #333;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #menu img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        max-width:200px;
+        max-height:150px;
+        width: auto;
+        height: auto;
+    }
+
+    #content {
+        flex: 1;
+        padding: 20px;
+    }
+
+    #ul-container {
+        list-style: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    li button {
+        margin-left: 5px;
+        background-color: #ed6969;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    a {
+        text-decoration: none;
+        color: #333;
+        font-weight: bold;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    td {
+        margin: 0;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        word-wrap: break-word;
+        width: 200px;
+        vertical-align: top;
+    }
+
+    th {
+        background-color: #a8caf0;
+        color: #333;
+        word-wrap: break-word
+      
+    }
+
+    h1 {
+        color: #333;
+        text-align: center;
+    }
+
+    input[type="text"] {
+        width: 50%;
+        padding: 8px;
+        margin-right: 10px;
+    }
+
+    input[type="button"] {
+        padding: 8px;
+        background-color: #a8caf0;
+        color: #333;
+        border: none;
+        cursor: pointer;
+        font-weight: bold;  
+    }
+    input[type="button"]:hover {
+        background-color: #333;
+        color: #a8caf0;
+        border: none;
+        cursor: pointer;
+    }
+
+  </style>
 </head>
 <body>
-    
+
+  <div id="container">
+    <div id="menu">
+      <img id="image" src="https://cdn-icons-png.flaticon.com/512/6073/6073873.png" alt=" ">
+      <h1>Ana Maria</h1>
+      <p>Lorem ips dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt 
+        ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostr 
+        exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi 
+        consequatur.</p>
+      <ul id="ul-container" >
+        <li><a href="#">Link1</a></li>
+        <li><a href="#">Link2</a></li>
+        <li><a href="#">Link3</a></li>
+        <li><a href="#">Link4</a></li>
+      </ul>
+    </div>
+
+    <div id="content">
+      <h1>Lista de Tarefas</h1>
+      <div>
+        <table>
+          <tr>
+            <th>Dia</th>
+            <th>Noite</th>
+          </tr>
+          <tr>
+            <td>
+            <ul id="tarefasDia">
+                <li>Ut enim ad minim veniam, quis nostr exercitationem ullam corporis 
+                    suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
+                    <button onclick="removerTarefa(this)">Excluir</button>
+                </li>
+                <li>Ut enim ad minim veniam, quis nostr exercitationem ullam corporis 
+                    suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.
+                    <button onclick="removerTarefa(this)">Excluir</button>
+                </li>
+            </ul>
+            </td>
+            <td>
+              <ul id="tarefasNoite">
+                <li>Lorem ips dolor sit amet, consectetur adipisci elit,
+                    sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                    <button onclick="removerTarefa(this)">Excluir</button>
+                </li>
+                <li>Lorem ips dolor sit amet, consectetur adipisci elit,
+                    sed eiusmod tempor incidunt ut labore et dolore magna aliqua.
+                    <button onclick="removerTarefa(this)">Excluir</button>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <input type="text" id="novaTarefa" placeholder="Nova Tarefa">
+        <label for="tipoTarefa">Tipo:</label>
+        <select id="tipoTarefa">
+          <option value="dia">Tarefa Dia</option>
+          <option value="noite">Tarefa Noite</option>
+        </select>
+        <input type="button" value="Adicionar" onclick="adicionarTarefa()">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function adicionarTarefa() {
+      var novaTarefa = document.getElementById("novaTarefa").value;
+      var tipoTarefa = document.getElementById("tipoTarefa").value;
+
+      if (novaTarefa !== "") {
+        var listaTarefas = document.getElementById("tarefas" + tipoTarefa.charAt(0).toUpperCase() + tipoTarefa.slice(1));
+        
+        var novaLi = document.createElement("li");
+        novaLi.innerHTML = `<span>${novaTarefa}</span> <button onclick="removerTarefa(this)">Excluir</button>`;
+        
+        listaTarefas.appendChild(novaLi);
+        
+        document.getElementById("novaTarefa").value = "";
+      }
+    }
+
+    function removerTarefa(botao) {
+      var listItem = botao.parentNode;
+      listItem.parentNode.removeChild(listItem);
+    }
+  </script>
+
 </body>
 </html>
